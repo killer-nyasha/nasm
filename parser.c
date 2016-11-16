@@ -59,7 +59,6 @@ extern int32_t abs_offset;      /* ABSOLUTE segment offset */
 
 static int is_comma_next(void);
 
-static int i;
 static struct tokenval tokval;
 static struct location *location;       /* Pointer to current line's segment,offset */
 
@@ -390,6 +389,7 @@ insn *parse_line(int pass, char *buffer, insn *result, ldfunc ldef)
     int critical;
     bool first;
     bool recover;
+    int i;
 
 restart_parse:
     first               = true;
