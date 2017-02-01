@@ -113,17 +113,21 @@ ndisasm$(X): $(NDISASM)
 
 insns.pl: insns-iflags.pl
 
-iflag.c iflag.h: insns.dat insns.pl
-    $(PERL) $(srcdir)/insns.pl -t $(srcdir)/insns.dat
-insnsb.c: insns.dat insns.pl
+INSDEP = insns.dat insns.pl insns-iflags.pl
+
+iflag.c: $(INSDEP)
+    $(PERL) $(srcdir)/insns.pl -fc $(srcdir)/insns.dat
+iflaggen.h: $(INSDEP)
+    $(PERL) $(srcdir)/insns.pl -fh $(srcdir)/insns.dat
+insnsb.c: $(INSDEP)
     $(PERL) $(srcdir)/insns.pl -b $(srcdir)/insns.dat
-insnsa.c: insns.dat insns.pl
+insnsa.c: $(INSDEP)
     $(PERL) $(srcdir)/insns.pl -a $(srcdir)/insns.dat
-insnsd.c: insns.dat insns.pl
+insnsd.c: $(INSDEP)
     $(PERL) $(srcdir)/insns.pl -d $(srcdir)/insns.dat
-insnsi.h: insns.dat insns.pl
+insnsi.h: $(INSDEP)
     $(PERL) $(srcdir)/insns.pl -i $(srcdir)/insns.dat
-insnsn.c: insns.dat insns.pl
+insnsn.c: $(INSDEP)
     $(PERL) $(srcdir)/insns.pl -n $(srcdir)/insns.dat
 
 # These files contains all the standard macros that are derived from
@@ -138,8 +142,8 @@ version.mac: version version.pl
 # `standard.mac' by another Perl script. Again, it's part of the
 # standard distribution.
 
-macros.c: macros.pl standard.mac version.mac macros/*.mac output/*.mac
-    $(PERL) $<
+macros.c: macros.pl pptok.ph standard.mac version.mac $(srcdir)/macros/*.mac $(srcdir)/output/*.mac
+    $(PERL) $(srcdir)/macros.pl $(srcdir)/standard.mac version.mac $(srcdir)/macros/*.mac $(srcdir)/output/*.mac
 
 # These source files are generated from regs.dat by yet another
 # perl script.
@@ -182,12 +186,9 @@ directiv.c: directiv.dat directiv.pl perllib/phash.ph
 
 # This target generates all files that require perl.
 # This allows easier generation of distribution (see dist target).
-PERLREQ = pptok.ph macros.c insnsb.c insnsa.c insnsd.c insnsi.h insnsn.c &
-      regs.c regs.h regflags.c regdis.c regdis.h regvals.c &
-      tokhash.c tokens.h pptok.h pptok.c &
-      directiv.c directiv.h &
-      version.h version.mac &
-      iflag.c iflag.h
+PERLREQ = macros.c insnsb.c insnsa.c insnsd.c insnsi.h insnsn.c &
+	  regs.c regs.h regflags.c regdis.c regvals.c tokhash.c tokens.h &
+	  version.h version.mac pptok.h pptok.c iflag.c iflag.h
 perlreq: $(PERLREQ) .SYMBOLIC
 
 clean: .SYMBOLIC
