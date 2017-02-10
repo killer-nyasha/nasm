@@ -1762,6 +1762,7 @@ static void dwarfx32_output(int type, void *param)
                 saa_write8(plinep,DW_LNS_advance_pc);
                 saa_wleb128u(plinep,aa);
             }
+            saa_write8(plinep,DW_LNS_copy);
         }
         dwarf_csect->line = currentline;
         dwarf_csect->offset = s->offset;
