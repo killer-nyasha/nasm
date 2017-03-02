@@ -1030,9 +1030,9 @@ is_expression:
                             op->type |= SBYTEDWORD;
                         if ((uint16_t) (n + 128) <= 255)
                             op->type |= SBYTEWORD;
-                        if (n <= 0xFFFFFFFF)
+                        if (n <= UINT64_C(0xFFFFFFFF))
                             op->type |= UDWORD;
-                        if (n + 0x80000000 <= 0xFFFFFFFF)
+                        if (n + UINT64_C(0x80000000) <= UINT64_C(0xFFFFFFFF))
                             op->type |= SDWORD;
                     }
                 }

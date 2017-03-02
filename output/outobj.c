@@ -1139,7 +1139,7 @@ static void obj_out(int32_t segto, const void *data,
 	    ldata += size;
         }
 
-	if (size > UINT_MAX)
+	if (size > (uint64_t)UINT_MAX)
 	    size = 0;
 
 	switch ((unsigned int)size) {
