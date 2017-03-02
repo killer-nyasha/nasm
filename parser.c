@@ -220,18 +220,16 @@ static bool parse_braces(decoflags_t *decoflags)
             }
             *decoflags |= VAL_OPMASK(nasm_regvals[tokval.t_integer]);
         } else if (i == TOKEN_DECORATOR) {
-            switch (tokval.t_integer) {
-            case BRC_Z:
+            if (tokval.t_integer == BRC_Z) {
                 /*
                  * according to AVX512 spec, only zeroing/merging decorator
                  * is supported with opmask
                  */
                 *decoflags |= GEN_Z(0);
-                break;
-            default:
+            }
+            else {
                 nasm_error(ERR_NONFATAL, "{%s} is not an expected decorator",
                                          tokval.t_charptr);
-                break;
             }
         } else if (i == ',' || i == TOKEN_EOS){
             break;
@@ -1043,6 +1041,15 @@ is_expression:
                  * of previous operand.
                  */
                 opnum--; op--;
+#ifdef __WATCOMC__
+                if (value->value >= BRC_RN && value->value <= BRC_SAE) {
+                    op->decoflags |= (value->value == BRC_SAE ? SAE : ER);
+                    result->evex_rm = value->value;
+                }
+                else {
+                    nasm_error(ERR_NONFATAL, "invalid decorator");
+                }
+#else
                 switch (value->value) {
                 case BRC_RN:
                 case BRC_RU:
@@ -1056,6 +1063,7 @@ is_expression:
                     nasm_error(ERR_NONFATAL, "invalid decorator");
                     break;
                 }
+#endif
             } else {            /* it's a register */
                 opflags_t rs;
 
