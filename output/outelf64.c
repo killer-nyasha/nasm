@@ -2084,6 +2084,7 @@ static void dwarf64_findfile(const char * fname)
                 dwarf_clist = match;
                 return;
             }
+            match = match->next;
         }
     }
 

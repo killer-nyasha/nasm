@@ -2040,6 +2040,7 @@ static void dwarfx32_findfile(const char * fname)
                 dwarf_clist = match;
                 return;
             }
+            match = match->next;
         }
     }
 
