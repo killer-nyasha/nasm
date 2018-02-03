@@ -188,7 +188,7 @@ directiv.c: directiv.dat directiv.pl perllib/phash.ph
 # This allows easier generation of distribution (see dist target).
 PERLREQ = macros.c insnsb.c insnsa.c insnsd.c insnsi.h insnsn.c &
 	  regs.c regs.h regflags.c regdis.c regvals.c tokhash.c tokens.h &
-	  version.h version.mac pptok.h pptok.c iflag.c iflag.h
+	  version.h version.mac pptok.h pptok.c iflag.c
 perlreq: $(PERLREQ) .SYMBOLIC
 
 clean: .SYMBOLIC
