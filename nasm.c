@@ -2003,7 +2003,8 @@ static void nasm_verror_common(int severity, const char *fmt, va_list args)
     }
 
     vsnprintf(msg, sizeof msg - 64, fmt, args);
-    if ((severity & (ERR_WARN_MASK|ERR_PP_LISTMACRO)) == ERR_WARN_MASK) {
+    if ((severity & (ERR_WARN_MASK|ERR_PP_LISTMACRO)) == ERR_WARN_MASK
+	    && WARN_IDX(severity) < ERR_WARN_MAX+1) {
 	char *p = strchr(msg, '\0');
 	snprintf(p, 64, " [-w+%s]", warnings[WARN_IDX(severity)].name);
     }
