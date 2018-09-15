@@ -234,6 +234,7 @@ int main(int argc, char **argv)
             fprintf(stderr, "rdflib: required parameter missing\n");
             exit(1);
         }
+        /* fall through */
     case 't':
         fp = fopen(argv[2], "rb");
         if (!fp) {
@@ -317,7 +318,7 @@ int main(int argc, char **argv)
         break;
 
     case 'r':                  /* replace module */
-        argc--;
+        argc--;                /* fall through */
     case 'd':                  /* delete module */
         if (argc < 4) {
             fprintf(stderr, "rdflib: required parameter missing\n");
