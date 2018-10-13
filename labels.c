@@ -155,6 +155,8 @@ static union label *find_label(char *label, int create, int *created)
     char label_str[IDLEN_MAX];
     struct hash_insert ip;
 
+    nasm_assert(label != NULL);
+
     if (islocal(label)) {
         prev = prevlabel;
         prevlen = strlen(prev);
