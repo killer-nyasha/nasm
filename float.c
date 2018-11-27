@@ -549,8 +549,9 @@ static bool ieee_flconvert_bin(const char *string, int bits,
             }
 
             if (seendigit) {
-                if (ms <= 0) {
-                    *mp |= v >> -ms;
+                if (ms < 0) {
+                    /* Cast to fp_2limb as ms == -LIMB_BITS is possible. */
+                    *mp |= (fp_2limb)v >> -ms;
                     mp++;
                     if (mp > &mult[MANT_LIMBS])
                         mp = &mult[MANT_LIMBS]; /* Guard slot */
