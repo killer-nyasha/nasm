@@ -12,13 +12,13 @@ exec_prefix = $(prefix)
 bindir      = $(prefix)\bin
 mandir      = $(prefix)\man
 
-CC      = *wcl386
+CC          = wcl386
 DEBUG       =
 CFLAGS      = -zq -6 -ox -wx -ze -fpi $(DEBUG)
 BUILD_CFLAGS    = $(CFLAGS) $(%TARGET_CFLAGS)
 INTERNAL_CFLAGS = -I$(srcdir) -I. -DHAVE_CONFIG_H
 ALL_CFLAGS  = $(BUILD_CFLAGS) $(INTERNAL_CFLAGS)
-LD      = *wlink
+LD          = wlink
 LDEBUG      =
 LDFLAGS     = op quiet $(%TARGET_LFLAGS) $(LDEBUG)
 LIBS        =
@@ -27,8 +27,8 @@ PERL        = perl -I$(srcdir)/perllib -I$(srcdir)
 STRIP       = wstrip
 
 # Binary suffixes
-O               = obj
-X               = .exe
+O           = obj
+X           = .exe
 
 # WMAKE errors out if a suffix is declared more than once, including
 # its own built-in declarations.  Thus, we need to explicitly clear the list
@@ -254,6 +254,7 @@ config.h: Mkfiles/openwcom.mak
     @%append $@ $#define HAVE_SYS_STAT_H 1
     @%append $@ $#define HAVE_SYS_TYPES_H 1
     @%append $@ $#define HAVE_UNISTD_H 1
+    @%append $@ $#define HAVE__FULLPATH 1
     @%append $@ $#define HAVE_VSNPRINTF 1
     @%append $@ $#define STDC_HEADERS 1
 
