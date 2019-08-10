@@ -103,23 +103,27 @@ no_return nasm_panic_from_macro(const char *file, int line)
 
 void *nasm_malloc(size_t size)
 {
-    void *p = malloc(size);
-    if (!p)
+    void *p;
+    if (!size) size = sizeof(void *);
+    if (!(p = malloc(size)))
         nasm_fatal(ERR_NOFILE, "out of memory");
     return p;
 }
 
 void *nasm_zalloc(size_t size)
 {
-    void *p = calloc(size, 1);
-    if (!p)
+    void *p;
+    if (!size) size = sizeof(void *);
+    if (!(p = calloc(1, size)))
         nasm_fatal(ERR_NOFILE, "out of memory");
     return p;
 }
 
 void *nasm_realloc(void *q, size_t size)
 {
-    void *p = q ? realloc(q, size) : malloc(size);
+    void *p;
+    if (!q && !size) size = sizeof(void *);
+    p = q ? realloc(q, size) : malloc(size);
     if (!p)
         nasm_fatal(ERR_NOFILE, "out of memory");
     return p;
