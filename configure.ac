@@ -274,7 +274,8 @@ PA_ADD_CLDFLAGS([-fvisibility=hidden])
 dnl If we have gcc, add appropriate code cleanliness options
 PA_ADD_CFLAGS([-W])
 PA_ADD_CFLAGS([-Wall])
-PA_ADD_CFLAGS([-pedantic])
+dnl -pedantic can be too loud with newer gcc
+PA_ARG_ENABLED([pedantic], [compile with -pedantic warnings], [PA_ADD_CFLAGS([-pedantic])], [])
 dnl LLVM doesn't error out on invalid -W options unless this option is
 dnl specified first.  Enable this so this script can actually discover
 dnl which -W options are possible for this compiler.
