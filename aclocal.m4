@@ -113,9 +113,11 @@ ifelse([$3],[],[void *],[$3]) foo(void)
 		bar(ifelse([$5],[],[1],[$5]));
 }
  ])],
- [AC_MSG_RESULT([yes])
+dnl fail if the compiler emited a warning to stderr.
+ [AS_IF([test -s conftest.err], AC_MSG_RESULT([no]),
+  AC_MSG_RESULT([yes])
   AC_DEFINE(PA_SYM([HAVE_FUNC_ATTRIBUTE_],[$1]), 1,
-    [Define to 1 if your compiler supports __attribute__(($1)) on functions])],
+    [Define to 1 if your compiler supports __attribute__(($1)) on functions]))],
  [AC_MSG_RESULT([no])])
 ])
 
@@ -138,9 +140,11 @@ void foo(void)
 		barf();
 }
  ])],
- [AC_MSG_RESULT([yes])
+dnl fail if the compiler emited a warning to stderr.
+ [AS_IF([test -s conftest.err], AC_MSG_RESULT([no]),
+  AC_MSG_RESULT([yes])
   AC_DEFINE([HAVE_FUNC_ATTRIBUTE_ERROR], 1,
-    [Define to 1 if your compiler supports __attribute__((error)) on functions])],
+    [Define to 1 if your compiler supports __attribute__((error)) on functions]))],
  [AC_MSG_RESULT([no])])
 ])
 
