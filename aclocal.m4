@@ -190,6 +190,9 @@ AC_INCLUDES_DEFAULT
 #ifdef __GNUC_GNU_INLINE__
 # error "Using gnu inline standard"
 #endif
+#if defined(__GNUC__) && !defined(__GNUC_STDC_INLINE__)
+# error "Using gnu inline standard"
+#endif
 
 inline int foo(int x)
 {
