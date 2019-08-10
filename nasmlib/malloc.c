@@ -72,21 +72,27 @@ static inline void *validate_ptr(void *p)
 
 void *nasm_malloc(size_t size)
 {
+    if (!size) size = sizeof(void *);
     return validate_ptr(malloc(size));
 }
 
-void *nasm_calloc(size_t size, size_t nelem)
+void *nasm_calloc(size_t nelem, size_t size)
 {
-    return validate_ptr(calloc(size, nelem));
+    if (!size || !nelem) {
+        size = sizeof(void *); nelem = 1;
+    }
+    return validate_ptr(calloc(nelem, size));
 }
 
 void *nasm_zalloc(size_t size)
 {
+    if (!size) size = sizeof(void *);
     return validate_ptr(calloc(1, size));
 }
 
 void *nasm_realloc(void *q, size_t size)
 {
+    if (!q && !size) size = sizeof(void *);
     return validate_ptr(q ? realloc(q, size) : malloc(size));
 }
 

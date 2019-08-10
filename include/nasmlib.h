@@ -86,7 +86,7 @@ char * safe_alloc end_with_null nasm_strcatn(const char *one, ...);
 #define nasm_assert_pointer(p) ((void)sizeof(*(p)))
 
 #define nasm_new(p) ((p) = nasm_zalloc(sizeof(*(p))))
-#define nasm_newn(p,n) ((p) = nasm_calloc(sizeof(*(p)),(n)))
+#define nasm_newn(p,n) ((p) = nasm_calloc((n),sizeof(*(p))))
 /*
  * This is broken on platforms where there are pointers which don't
  * match void * in their internal layout.  It unfortunately also
