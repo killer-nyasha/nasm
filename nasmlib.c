@@ -104,7 +104,7 @@ no_return nasm_panic_from_macro(const char *file, int line)
 void *nasm_malloc(size_t size)
 {
     void *p;
-    if (!size) size = sizeof(void *);
+    if (!size) size = 1;
     if (!(p = malloc(size)))
         nasm_fatal(ERR_NOFILE, "out of memory");
     return p;
@@ -113,16 +113,20 @@ void *nasm_malloc(size_t size)
 void *nasm_zalloc(size_t size)
 {
     void *p;
-    if (!size) size = sizeof(void *);
+    if (!size) size = 1;
     if (!(p = calloc(1, size)))
         nasm_fatal(ERR_NOFILE, "out of memory");
     return p;
 }
 
+/*
+ * Unlike the system realloc, we do *not* allow size == 0 to be
+ * the equivalent to free(); we guarantee returning a non-NULL pointer.
+ */
 void *nasm_realloc(void *q, size_t size)
 {
     void *p;
-    if (!q && !size) size = sizeof(void *);
+    if (!size) size = 1;
     p = q ? realloc(q, size) : malloc(size);
     if (!p)
         nasm_fatal(ERR_NOFILE, "out of memory");
