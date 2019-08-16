@@ -72,28 +72,32 @@ static inline void *validate_ptr(void *p)
 
 void *nasm_malloc(size_t size)
 {
-    if (!size) size = sizeof(void *);
+    if (!size) size = 1;
     return validate_ptr(malloc(size));
 }
 
 void *nasm_calloc(size_t nelem, size_t size)
 {
     if (!size || !nelem) {
-        size = sizeof(void *); nelem = 1;
+        size = nelem = 1;
     }
     return validate_ptr(calloc(nelem, size));
 }
 
 void *nasm_zalloc(size_t size)
 {
-    if (!size) size = sizeof(void *);
-    return validate_ptr(calloc(1, size));
+    return nasm_calloc(size, 1);
 }
 
+/*
+ * Unlike the system realloc, we do *not* allow size == 0 to be
+ * the equivalent to free(); we guarantee returning a non-NULL pointer.
+ */
 void *nasm_realloc(void *q, size_t size)
 {
-    if (!q && !size) size = sizeof(void *);
-    return validate_ptr(q ? realloc(q, size) : malloc(size));
+    if (!size) size = 1;
+    q = q ? realloc(q, size) : malloc(size);
+    return validate_ptr(q);
 }
 
 void nasm_free(void *q)
