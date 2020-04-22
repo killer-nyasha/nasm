@@ -1,3 +1,6 @@
+**killer-nyasha:**
+**This will be a dll-version of NASM which doesn’t use file I/O to assemble. Don’t use this if you need “normal” NASM.**
+
 NASM, the Netwide Assembler
 ===========================
 
